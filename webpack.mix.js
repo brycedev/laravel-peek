@@ -2,11 +2,11 @@ const mix = require('laravel-mix')
 const path = require('path')
 
 mix.setPublicPath('public/vendor/laravel-peek')
-  .js('resources/js/app.js', 'js/').vue({ version: 3 })// change this while developing in different host/port
+  .js('resources/js/app.js', '/').vue({ version: 3 })
   .webpackConfig({
       output: {
         publicPath: '/vendor/laravel-peek/',
-        chunkFilename: 'js/[name].js?id=[chunkhash]'
+        chunkFilename: '[name].js?id=[chunkhash]'
       },
       resolve: {
         alias: {
@@ -14,5 +14,4 @@ mix.setPublicPath('public/vendor/laravel-peek')
         },
       },
   })
-  .sourceMaps()
   .version()
