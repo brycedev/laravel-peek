@@ -45,7 +45,7 @@ class HallMonitor
                 'memory' => round(memory_get_peak_usage(true) / 1024 / 1024, 1),
                 'method' => $request->method(),
                 'path' => $request->path(),
-                'response_status' => $response->getStatusCode(),
+                'status' => $response->getStatusCode(),
                 'url' => $request->fullUrl(),
                 'payload' => json_encode(self::sanitize($this->getInput($request), self::$hiddenPayloads)),
                 'headers' => json_encode(self::sanitize($request->headers->all(), self::$hiddenHeaders))
