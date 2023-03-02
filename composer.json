@@ -1,0 +1,42 @@
+{
+    "name": "brycedev/laravel-peek",
+    "description": "lightweight request viewer for laravel",
+    "keywords": ["laravel", "peek", "request", "viewer", "telescope"],
+    "license": "MIT",
+    "authors" : [
+        {
+            "name": "Bryce Jackson",
+            "homepage": "https://bryce.id"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "illuminate/support": "*",
+        "inertiajs/inertia-laravel": "^0.6.9"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.25.1",
+        "phpunit/phpunit": "^9.6.4",
+        "laravel/framework": "^8.83",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brycedev\\Peek\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Brycedev\\Peek\\PeekServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "check": "vendor/bin/phpcs -p --standard=psr12 src/",
+        "fix": "vendor/bin/phpcbf -p --standard=psr12 src/",
+        "test": "vendor/bin/phpunit"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
