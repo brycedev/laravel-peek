@@ -39,8 +39,16 @@ class PeekServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'peek-migrations');
+
+            $this->publishes([
                 __DIR__ . '/../config/laravel-peek.php' => config_path('peek.php'),
-            ], 'laravel-peek-config');
+            ], 'peek-config');
+
+            $this->publishes([
+                __DIR__.'/../public' => public_path('vendor/laravel-peek'),
+            ], ['peek-assets', 'laravel-assets']);
         }
     }
 
