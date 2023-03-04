@@ -1,11 +1,12 @@
 const mix = require('laravel-mix')
+require('laravel-mix-tailwind')
 const path = require('path')
 
-mix.setPublicPath('public/vendor/laravel-peek')
+mix.setPublicPath('public')
+  .sass('resources/sass/app.scss', '/').tailwind()
   .js('resources/js/app.js', '/').vue({ version: 3 })
   .webpackConfig({
       output: {
-        publicPath: '/vendor/laravel-peek/',
         chunkFilename: '[name].js?id=[chunkhash]'
       },
       resolve: {

@@ -4,6 +4,7 @@ namespace Brycedev\Peek;
 
 use Inertia\Inertia;
 use Brycedev\Peek\HallMonitor;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class PeekServiceProvider extends ServiceProvider
@@ -12,10 +13,11 @@ class PeekServiceProvider extends ServiceProvider
     {
         $this->configureInertia();
 
+        $this->registerCommands();
         $this->registerMigrations();
         $this->registerPublications();
 
-        if (! config('laravel-peek.enabled')) {
+        if (! config('peek.enabled')) {
             return;
         }
 
@@ -27,7 +29,18 @@ class PeekServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/laravel-peek.php', 'laravel-peek');
+        $this->mergeConfigFrom(__DIR__ . '/../config/peek.php', 'peek');
+    }
+
+    private function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\CleanCommand::class,
+                Console\PublishCommand::class,
+                Console\ResetCommand::class
+            ]);
+        }
     }
 
     private function registerMigrations()
@@ -43,23 +56,31 @@ class PeekServiceProvider extends ServiceProvider
             ], 'peek-migrations');
 
             $this->publishes([
-                __DIR__ . '/../config/laravel-peek.php' => config_path('peek.php'),
+                __DIR__ . '/../config/peek.php' => config_path('peek.php'),
             ], 'peek-config');
 
             $this->publishes([
-                __DIR__.'/../public' => public_path('vendor/laravel-peek'),
+                __DIR__.'/../public' => public_path('vendor/peek'),
             ], ['peek-assets', 'laravel-assets']);
         }
     }
 
     private function registerRoutes()
     {
-        $this->loadRoutesFrom(__DIR__ . '/Http/routes.php');
+        Route::group([
+            'domain' => config('peek.domain', null),
+            'middleware' => config('peek.middleware', ['web']),
+            'namespace' => 'Brycedev\Peek\Http\Controllers',
+            'prefix' => config('peek.path'),
+            'name' => 'peek.',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+        });
     }
 
     private function registerViews()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laravel-peek');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'peek');
     }
 
     private function configureInertia()
@@ -68,8 +89,8 @@ class PeekServiceProvider extends ServiceProvider
             return;
         }
         Inertia::version(function () {
-            return md5_file(public_path('vendor/laravel-peek/mix-manifest.json'));
+            return md5_file(public_path('vendor/peek/mix-manifest.json'));
         });
-        Inertia::setRootView('laravel-peek::app');
+        Inertia::setRootView('peek::app');
     }
 }
