@@ -34,7 +34,7 @@ const handleRequestClicked = (request) => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 dark:divide-zinc-800 bg-white dark:bg-black">
-              <tr v-for="request in requests" :key="request.id" class="cursor-pointer dark:hover:bg-white/2.5 transition-all ease-in-out" @click="$event => handleRequestClicked(request)">
+              <tr v-for="request in requests" :key="request.id" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/2.5 transition-all ease-in-out" @click="$event => handleRequestClicked(request)">
                 <td class="w-full whitespace-nowrap px-6 py-3 text-sm font-medium text-gray-900 dark:text-zinc-100">
                   <div class="flex flex-col space-y-1 lg:pl-2">
                     <p class="uppercase flex-shrink-0 text-2xs font-semibold" aria-hidden="true">

@@ -12,7 +12,7 @@ class RequestRecordsController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('Requests', [
-            'requests' => RequestRecord::orderBy('created_at', 'desc')->get(),
+            'requests' => RequestRecord::orderBy('created_at', 'desc')->limit(100)->get(),
         ]);
     }
 
