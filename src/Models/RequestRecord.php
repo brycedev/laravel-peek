@@ -4,21 +4,33 @@ namespace Brycedev\Peek\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use stdClass;
 
 class RequestRecord extends Model
 {
     protected $appends = [
         'short_action',
     ];
-    protected $casts = ['headers' => 'array', 'payload' => 'array'];
     protected $guarded = [];
     protected $table = 'peek_request_records';
 
     protected function headers(): Attribute
     {
-        $headers = json_decode($this->attributes['headers']);
+        $headers = isset($this->attributes['headers']) 
+            ? json_decode($this->attributes['headers']) 
+            : new stdClass();
         return Attribute::make(
             get: fn () => array_map(function($x){ return $x[0]; }, collect($headers)->toArray()),
+        );
+    }
+
+    protected function payload(): Attribute
+    {
+        $payload = isset($this->attributes['payload']) 
+            ? json_decode($this->attributes['payload']) 
+            : [];
+        return Attribute::make(
+            get: fn () => $payload,
         );
     }
 
