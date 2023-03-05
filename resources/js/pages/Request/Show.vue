@@ -8,8 +8,19 @@ export default {
 
 <script setup>
 import { Link } from '@inertiajs/vue3'
+import jsonFormat from 'json-format'
+import Prism from 'prismjs'
+require('prismjs/components/prism-json')
 
 defineProps({ request: Object })
+
+const renderJson = (json) => {
+  const formattedJson = jsonFormat(json, {
+    type: 'tab',
+    size: 1,
+  })
+  return Prism.highlight(formattedJson, Prism.languages.json, 'json')
+}
 
 </script>
 
@@ -64,20 +75,20 @@ defineProps({ request: Object })
           </dl>
         </div>
         <div id="data" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div class="flex flex-col overflow-hidden rounded-xl bg-zinc-900 dark:bg-black dark:border dark:border-zinc-800 max-h-64">
+          <div class="flex flex-col overflow-hidden rounded-xl bg-zinc-900 dark:bg-black dark:border dark:border-zinc-800 max-h-72">
             <div class="w-full px-4 py-3 border-b border-zinc-700 bg-white/2.5">
               <h3 class="text-xs text-white font-semibold">Headers</h3>
             </div>
             <div class="px-4 py-5 sm:p-6 text-zinc-200 text-sm overflow-scroll">
-              {{ request.headers }}
+              <div class="whitespace-pre-wrap" v-html="renderJson(request.headers)"></div>
             </div>
           </div>
-          <div class="flex flex-col overflow-hidden rounded-xl bg-zinc-900 dark:bg-black dark:border dark:border-zinc-800 max-h-64">
+          <div class="flex flex-col overflow-hidden rounded-xl bg-zinc-900 dark:bg-black dark:border dark:border-zinc-800 max-h-72">
             <div class="w-full px-4 py-3 border-b border-zinc-700 bg-white/2.5">
               <h3 class="text-xs text-white font-semibold">Payload</h3>
             </div>
             <div class="px-4 py-5 sm:p-6 text-zinc-200 text-sm overflow-scroll">
-              {{ request.payload }}
+             <div class="whitespace-pre-wrap" v-html="renderJson(request.payload)"></div>
             </div>
           </div>
         </div>

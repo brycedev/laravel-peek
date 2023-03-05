@@ -10,8 +10,17 @@ class RequestRecord extends Model
     protected $appends = [
         'short_action',
     ];
+    protected $casts = ['headers' => 'array', 'payload' => 'array'];
     protected $guarded = [];
     protected $table = 'peek_request_records';
+
+    protected function headers(): Attribute
+    {
+        $headers = json_decode($this->attributes['headers']);
+        return Attribute::make(
+            get: fn () => array_map(function($x){ return $x[0]; }, collect($headers)->toArray()),
+        );
+    }
 
     protected function shortAction(): Attribute
     {

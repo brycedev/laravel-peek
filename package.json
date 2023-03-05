@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npm install && npm run build:hot",
     "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "build:hot": "watchexec 'npm run build' --exts=js,vue --watch=resources"
+    "build:hot": "watchexec 'npm run build' --exts=js,vue,scss --watch=resources"
   },
   "author": "Bryce Jackson",
   "license": "MIT",
@@ -15,6 +15,8 @@
     "@inertiajs/inertia": "^0.11.1",
     "@inertiajs/vue3": "^1.0.2",
     "@tailwindcss/forms": "^0.5.3",
+    "json-format": "^1.0.1",
+    "prismjs": "^1.29.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {
